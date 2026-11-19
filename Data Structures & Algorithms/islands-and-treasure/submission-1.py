@@ -1,0 +1,29 @@
+from collections import deque
+
+class Solution:
+    def islandsAndTreasure(self, grid: List[List[int]]) -> None:
+        rows, cols = len(grid), len(grid[0])
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 0:
+                    self.bfs(grid, r, c, rows, cols)
+
+    
+    def bfs(self, grid: List[List[int]], r: int, c: int, rows: int, cols: int) -> None:
+        queue = deque([(r, c, 0)])
+
+        while queue:
+            r, c, distance = queue.popleft()
+
+            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                nr, nc = r + dr, c + dc
+                
+                if (
+                    0 <= nr < rows and
+                    0 <= nc < cols and
+                    grid[nr][nc] > distance + 1
+                ):
+                    
+                    grid[nr][nc] = distance + 1
+                    queue.append((nr, nc, distance + 1))
